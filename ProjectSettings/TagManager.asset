@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Copa
   - SectionTrigger
+  - DestroyerTrigger
   layers:
   - Default
   - TransparentFX

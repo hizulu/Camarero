@@ -3,7 +3,7 @@ using UnityEngine;
 public class TrayMovement : MonoBehaviour
 {
     public Rigidbody playerRb;          // Rigidbody del personaje
-    public Movement playerMovement;     // Referencia al script de movimiento
+    public PlayerMovement playerMovement;     // Referencia al script de movimiento
     public float inclinacionMax = 15f;  // grados máximo de inclinación
     public float suavizado = 5f;        // velocidad de suavizado
     public float factorVelocidad = 2f;  // cuánto afecta la velocidad a la inclinación
