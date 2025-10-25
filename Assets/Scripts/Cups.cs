@@ -54,8 +54,9 @@ public class Cups : MonoBehaviour
                 Debug.Log("Cup hit the ground (not on tray).");
             }
 
+            //Destruirlas con un poco de Delay
             hasBeenDestroyed = true;
-            Destroy(gameObject);
+            Destroy(gameObject, 0.5f);
         }
     }
 }
