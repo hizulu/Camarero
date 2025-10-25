@@ -15,5 +15,6 @@ public class GameManager : MonoBehaviour
     {
         //Salir de la aplicacion
         Application.Quit();
+        Debug.Log("Salir");
     }
 }
