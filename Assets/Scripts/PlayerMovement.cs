@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
     private float horizontalInput;
     private Vector3 velocity; // Track velocity for tilting
 
+    public SectionsManager sectionManager;
+
     void Update()
     {
         // Get input (A/D or Left/Right arrows)
@@ -32,5 +34,13 @@ public class PlayerMovement : MonoBehaviour
     public float GetMaxTiltAngle()
     {
         return maxTiltAngle;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("SectionTrigger"))
+        {
+            sectionManager.SpawnSection(other.transform);
+        }
     }
 }

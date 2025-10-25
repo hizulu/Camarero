@@ -2,56 +2,34 @@ using UnityEngine;
 
 public class Cups : MonoBehaviour
 {
-    [Header("Scoring")]
-    public int pointsPerSecond = 10; // Puntos ganados por segundo mientras está en la bandeja
+    [Header("Tray Reference")]
+    public TrayMovement trayMovement;
 
     private bool isOnTray = false;
     private Rigidbody rb;
+    private bool hasBeenDestroyed = false;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        // Asegúrate de que la gravedad esté activada para que caiga
         rb.useGravity = true;
-    }
 
-    void Update()
-    {
-        if (isOnTray)
+        if (trayMovement == null)
         {
-            // Gana puntos mientras está en la bandeja (puedes integrar con un gestor de puntuación global)
-            // Por simplicidad, registra en consola; reemplaza con tu sistema de puntuación
-            Debug.Log("Ganando puntos: " + pointsPerSecond * Time.deltaTime);
+            trayMovement = FindObjectOfType<TrayMovement>();
+            if (trayMovement == null)
+            {
+                Debug.LogWarning("No TrayMovement found in scene. Cup will not decrement tray count.");
+            }
         }
     }
 
-    // Llamado por TrayMovement cuando entra/sale de la bandeja
     public void SetOnTray(bool onTray)
     {
         isOnTray = onTray;
         if (!onTray)
         {
-            // Opcional: Agrega efectos al caer, e.g., sonido o partículas
-            Debug.Log("¡Copa cayó!");
-        }
-    }
-
-    // Opcional: Reinicia la copa si cae demasiado lejos (e.g., respawnea o destruye)
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground")) // Asumiendo que el suelo tiene este tag
-        {
-            // Si está en la bandeja, notifica a TrayMovement para decrementar el contador antes de destruirse
-            if (isOnTray)
-            {
-                TrayMovement tray = FindObjectOfType<TrayMovement>();
-                if (tray != null)
-                {
-                    tray.DecrementCupCount();
-                }
-            }
-            // Destruye o respawnea la copa
-            Destroy(gameObject);
+            Debug.Log("Cup fell off the tray!");
         }
     }
 
@@ -60,4 +38,25 @@ public class Cups : MonoBehaviour
         return isOnTray;
     }
 
+    void OnCollisionEnter(Collision collision)
+    {
+        if (hasBeenDestroyed) return;
+
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            if (isOnTray && trayMovement != null)
+            {
+                trayMovement.DecrementCupCount();
+                Debug.Log("Cup hit the ground while on tray - decrementing count.");
+            }
+            else
+            {
+                Debug.Log("Cup hit the ground (not on tray).");
+            }
+
+            //Destruirlas con un poco de Delay
+            hasBeenDestroyed = true;
+            Destroy(gameObject, 0.5f);
+        }
+    }
 }
