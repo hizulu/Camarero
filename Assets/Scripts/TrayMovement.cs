@@ -25,7 +25,10 @@ public class TrayMovement : MonoBehaviour
     [Tooltip("Text to display the cup count.")]
     public TMP_Text cupsCounterText;
 
+    public TMP_Text finalDistanceText;
+
     private PlayerMovement playerController;
+    private SectionsManager sectionsManager;
     private Quaternion originalRotation;
     private float currentTiltAngle = 0f;
     private int cupsOnTray = 0;
@@ -108,6 +111,7 @@ public class TrayMovement : MonoBehaviour
         {
             endPanel.SetActive(true);
             pantallaPanel.SetActive(false);
+            finalDistanceText.text = "Distancia Recorrida: " + sectionsManager.distanceRecord.ToString() + " m";
             Time.timeScale = 0f;  // Pause the game
             gameEnded = true;
             Debug.Log("Game ended: No cups left on tray.");
