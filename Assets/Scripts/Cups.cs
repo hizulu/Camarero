@@ -3,7 +3,7 @@ using UnityEngine;
 public class Cups : MonoBehaviour
 {
     [Header("Scoring")]
-    public int pointsPerSecond = 10; // Points earned per second while on tray
+    public int pointsPerSecond = 10; // Puntos ganados por segundo mientras está en la bandeja
 
     private bool isOnTray = false;
     private Rigidbody rb;
@@ -11,7 +11,7 @@ public class Cups : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        // Ensure gravity is on for falling
+        // Asegúrate de que la gravedad esté activada para que caiga
         rb.useGravity = true;
     }
 
@@ -19,30 +19,45 @@ public class Cups : MonoBehaviour
     {
         if (isOnTray)
         {
-            // Earn points while on tray (you can integrate with a global score manager)
-            // For simplicity, log to console; replace with your scoring system
-            Debug.Log("Earning points: " + pointsPerSecond * Time.deltaTime);
+            // Gana puntos mientras está en la bandeja (puedes integrar con un gestor de puntuación global)
+            // Por simplicidad, registra en consola; reemplaza con tu sistema de puntuación
+            Debug.Log("Ganando puntos: " + pointsPerSecond * Time.deltaTime);
         }
     }
 
-    // Called by TrayController when entering/exiting tray
+    // Llamado por TrayMovement cuando entra/sale de la bandeja
     public void SetOnTray(bool onTray)
     {
         isOnTray = onTray;
         if (!onTray)
         {
-            // Optional: Add effects when falling off, e.g., sound or particle
-            Debug.Log("Cup fell off!");
+            // Opcional: Agrega efectos al caer, e.g., sonido o partículas
+            Debug.Log("¡Copa cayó!");
         }
     }
 
-    // Optional: Reset cup if it falls too far (e.g., respawn or destroy)
+    // Opcional: Reinicia la copa si cae demasiado lejos (e.g., respawnea o destruye)
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Ground")) // Assuming ground has this tag
+        if (collision.gameObject.CompareTag("Ground")) // Asumiendo que el suelo tiene este tag
         {
-            // Destroy or respawn the cup
+            // Si está en la bandeja, notifica a TrayMovement para decrementar el contador antes de destruirse
+            if (isOnTray)
+            {
+                TrayMovement tray = FindObjectOfType<TrayMovement>();
+                if (tray != null)
+                {
+                    tray.DecrementCupCount();
+                }
+            }
+            // Destruye o respawnea la copa
             Destroy(gameObject);
         }
     }
+
+    public bool IsOnTray()
+    {
+        return isOnTray;
+    }
+
 }
