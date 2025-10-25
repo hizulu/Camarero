@@ -1,99 +1,48 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
-public class Cup : MonoBehaviour
+public class Cups : MonoBehaviour
 {
-    [Header("Ajustes de caída")]
-    public float dropAngleThreshold = 20f;       // grados de inclinación de la bandeja para que la copa caiga
-    public float dropAccelerationThreshold = 40f;// si la aceleración acumulada supera esto, cae
-    public float additionalDropVelocity = 2f;    // empujón adicional al caer
-    public float collisionDropImpact = 2f;       // impacto mínimo para caer al chocar con un obstáculo
+    [Header("Scoring")]
+    public int pointsPerSecond = 10; // Points earned per second while on tray
 
-    [Header("Referencias (se asignan en Start si no se ponen)")]
-    public Rigidbody rb;
-    public Collider col;
-    public TrayInventory ownerTray;              // será asignado al ser hija de la bandeja
+    private bool isOnTray = false;
+    private Rigidbody rb;
 
-    bool isOnTray = true;
-
-    private void Start()
+    void Start()
     {
-        if (rb == null) rb = GetComponent<Rigidbody>();
-        if (col == null) col = GetComponent<Collider>();
-
-        // Si la copa es hija de la bandeja en escena, registrarla automáticamente
-        Transform p = transform.parent;
-        if (p != null)
-        {
-            ownerTray = p.GetComponentInParent<TrayInventory>();
-            if (ownerTray != null)
-            {
-                ownerTray.AddCup(this);
-            }
-        }
-
-        // Mientras está sobre la bandeja, usar kinematic para "pegarla" al transform.
-        rb.isKinematic = isOnTray;
+        rb = GetComponent<Rigidbody>();
+        // Ensure gravity is on for falling
+        rb.useGravity = true;
     }
 
-    private void Update()
+    void Update()
     {
-        if (!isOnTray) return;
-        if (ownerTray == null) return;
-
-        // Comprobación por inclinación: ángulo entre el up de la bandeja y el up global
-        float trayAngle = Vector3.Angle(ownerTray.trayTransform.up, Vector3.up);
-        if (trayAngle > dropAngleThreshold)
+        if (isOnTray)
         {
-            Drop();
-            return;
-        }
-
-        // Comprobación por aceleración (usa la propiedad exposada en PlayerMovement)
-        if (ownerTray.playerMovement != null && ownerTray.playerMovement.CurrentAcceleration > dropAccelerationThreshold)
-        {
-            Drop();
-            return;
+            // Earn points while on tray (you can integrate with a global score manager)
+            // For simplicity, log to console; replace with your scoring system
+            Debug.Log("Earning points: " + pointsPerSecond * Time.deltaTime);
         }
     }
 
-    public void Drop()
+    // Called by TrayController when entering/exiting tray
+    public void SetOnTray(bool onTray)
     {
-        if (!isOnTray) return;
-        isOnTray = false;
-
-        // deshijar para física independiente
-        transform.parent = null;
-        rb.isKinematic = false;
-
-        // dar velocidad inicial: la del jugador + componente por la inclinación de la bandeja
-        Vector3 baseVel = Vector3.zero;
-        if (ownerTray != null && ownerTray.playerRb != null) baseVel = ownerTray.playerRb.velocity;
-
-        // calcular empujón según la normal de la bandeja (hacia abajo de la bandeja)
-        Vector3 trayDown = ownerTray != null ? -ownerTray.trayTransform.up : Vector3.down;
-        Vector3 added = trayDown * additionalDropVelocity;
-
-        rb.velocity = baseVel + added;
-
-        // avisar al inventario
-        if (ownerTray != null) ownerTray.RemoveCup(this);
+        isOnTray = onTray;
+        if (!onTray)
+        {
+            // Optional: Add effects when falling off, e.g., sound or particle
+            Debug.Log("Cup fell off!");
+        }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    // Optional: Reset cup if it falls too far (e.g., respawn or destroy)
+    void OnCollisionEnter(Collision collision)
     {
-        // Si estaba sobre la bandeja no se considera; si no: detectar colisión con suelo/obstáculo
-        if (isOnTray) return;
-
-        // Si choca con un obstáculo (tag "Obstacle") con una fuerza suficiente, hacer algo (opcional)
-        if (collision.gameObject.CompareTag("Obstacle"))
+        if (collision.gameObject.CompareTag("Ground")) // Assuming ground has this tag
         {
-            float impact = collision.relativeVelocity.magnitude;
-            if (impact > collisionDropImpact)
-            {
-                // por ejemplo, podemos desactivar física o marcarla como "rota", etc.
-                // aquí no hacemos nada extra, pero lo dejo para que personalices.
-            }
+            // Destroy or respawn the cup
+            Destroy(gameObject);
         }
     }
 }

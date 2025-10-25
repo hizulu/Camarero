@@ -1,48 +1,61 @@
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
-using TMPro;
-using static Unity.Burst.Intrinsics.X86.Avx;
 
-public class TrayInventory : MonoBehaviour
+public class TrayMovement : MonoBehaviour
 {
-    [Header("Referencias")]
-    public Transform trayTransform;       // normalmente la propia bandeja (puede ser transform)
-    public Rigidbody playerRb;            // Rigidbody del jugador (se asigna en inspector)
-    public PlayerMovement playerMovement; // referencia al script PlayerMovement
+    [Header("Tilting Settings")]
+    [Tooltip("Sensibilidad de inclinación según la velocidad del jugador")]
+    public float tiltSensitivity = 5f;
 
-    [Header("UI / Eventos")]
-    public TextMeshProUGUI cupsText;
-    public UnityEvent OnAllCupsLost;      // asigna listeners en inspector (ej: detener score)
+    [Tooltip("Suavidad de la interpolación de inclinación")]
+    public float tiltSmoothness = 5f;
 
-    private List<Cup> cups = new List<Cup>();
+    [Tooltip("Ángulo máximo de inclinación (editable desde el editor)")]
+    [Range(0f, 90f)]
+    public float maxTiltAngle = 20f; // ahora editable en el inspector
 
-    private void Awake()
+    private PlayerMovement playerController;
+    private Quaternion originalRotation;
+    private float currentTiltAngle = 0f;
+
+    void Start()
     {
-        if (trayTransform == null) trayTransform = transform;
+        playerController = GetComponentInParent<PlayerMovement>();
+        originalRotation = transform.localRotation;
     }
 
-    public void AddCup(Cup c)
+    void Update()
     {
-        if (!cups.Contains(c)) cups.Add(c);
-        UpdateUI();
+        Vector3 velocity = playerController.GetVelocity();
+
+        // Calcula el ángulo deseado según la velocidad
+        float targetTiltAngle = -velocity.x * tiltSensitivity;
+        targetTiltAngle = Mathf.Clamp(targetTiltAngle, -maxTiltAngle, maxTiltAngle);
+
+        // Interpolación suave
+        currentTiltAngle = Mathf.Lerp(currentTiltAngle, targetTiltAngle, Time.deltaTime * tiltSmoothness);
+
+        // Aplica la rotación
+        float inclinacionX = Mathf.Clamp(-90f + currentTiltAngle, -90f - maxTiltAngle, -90f + maxTiltAngle);
+        transform.localRotation = Quaternion.Euler(inclinacionX, 90f, -90f);
     }
 
-    public void RemoveCup(Cup c)
+    private void OnTriggerEnter(Collider other)
     {
-        if (cups.Contains(c)) cups.Remove(c);
-        UpdateUI();
-
-        if (cups.Count == 0)
+        if (other.CompareTag("Copa"))
         {
-            OnAllCupsLost?.Invoke();
+            Cups cup = other.GetComponent<Cups>();
+            if (cup != null)
+                cup.SetOnTray(true);
         }
     }
 
-    public int CurrentCupCount => cups.Count;
-
-    private void UpdateUI()
+    private void OnTriggerExit(Collider other)
     {
-        if (cupsText != null) cupsText.text = cups.Count.ToString();
+        if (other.CompareTag("Copa"))
+        {
+            Cups cup = other.GetComponent<Cups>();
+            if (cup != null)
+                cup.SetOnTray(false);
+        }
     }
 }

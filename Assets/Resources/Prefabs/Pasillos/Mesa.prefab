@@ -68,6 +68,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mesa
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ad79c4273d85895438211d9cac15d6a2, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -7,6 +7,8 @@ TagManager:
   - Copa
   - SectionTrigger
   - DestroyerTrigger
+  - Obstacle
+  - Ground
   layers:
   - Default
   - TransparentFX

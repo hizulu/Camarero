@@ -240,7 +240,7 @@ GameObject:
   - component: {fileID: 3055645097707334900}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -423,6 +423,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pasillo 2
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0dbb7df04c05fc340a0c2ceaa51c6b53, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -457,6 +461,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21363c266755f47479256a7d685cbeae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  distanceRecord: 0
+  speed: 10
 --- !u!4 &3021225299362630369 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0dbb7df04c05fc340a0c2ceaa51c6b53, type: 3}
