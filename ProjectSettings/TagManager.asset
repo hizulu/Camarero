@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - Copa
+  - SectionTrigger
+  - DestroyerTrigger
+  - Obstacle
+  - Ground
+  - Tray
   layers:
   - Default
   - TransparentFX
