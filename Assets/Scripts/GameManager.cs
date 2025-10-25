@@ -3,18 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-
-
 public class GameManager : MonoBehaviour
 {
     public Canvas pausaCanvas;
     public TMPro.TextMeshProUGUI distanceText;
-    SectionMovement sectionMovement;
 
     public void Start()
     {        
         pausaCanvas.enabled = false;
-        sectionMovement = FindObjectOfType<SectionMovement>();
     }
 
     public void Jugar()
@@ -56,14 +52,6 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape) && pausaCanvas!=null)
         {
             Pausa();
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        if (distanceText != null && sectionMovement != null)
-        {
-            distanceText.text = "Distancia Recorrida: " + sectionMovement.distanceRecord.ToString() + " m";
         }
     }
 }
