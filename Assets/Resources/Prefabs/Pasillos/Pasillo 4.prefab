@@ -334,6 +334,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mesa (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 6136598032006219917, guid: a13a7578c81af7445b069921c0d4d78c, type: 3}
+      propertyPath: m_Size.y
+      value: 55.711136
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136598032006219917, guid: a13a7578c81af7445b069921c0d4d78c, type: 3}
+      propertyPath: m_Center.y
+      value: 23.8488
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136598032006219917, guid: a13a7578c81af7445b069921c0d4d78c, type: 3}
+      propertyPath: m_Center.z
+      value: 0.043849945
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -396,6 +408,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mesa (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 6136598032006219917, guid: a13a7578c81af7445b069921c0d4d78c, type: 3}
+      propertyPath: m_Size.y
+      value: 55.1933
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136598032006219917, guid: a13a7578c81af7445b069921c0d4d78c, type: 3}
+      propertyPath: m_Center.y
+      value: 23.589882
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136598032006219917, guid: a13a7578c81af7445b069921c0d4d78c, type: 3}
+      propertyPath: m_Center.z
+      value: 0.043849945
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -457,6 +481,18 @@ PrefabInstance:
     - target: {fileID: 5437755128349265912, guid: a13a7578c81af7445b069921c0d4d78c, type: 3}
       propertyPath: m_Name
       value: Mesa (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136598032006219917, guid: a13a7578c81af7445b069921c0d4d78c, type: 3}
+      propertyPath: m_Size.y
+      value: 46.966553
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136598032006219917, guid: a13a7578c81af7445b069921c0d4d78c, type: 3}
+      propertyPath: m_Center.y
+      value: 19.476513
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136598032006219917, guid: a13a7578c81af7445b069921c0d4d78c, type: 3}
+      propertyPath: m_Center.z
+      value: 0.043849945
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -627,6 +663,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mesa
       objectReference: {fileID: 0}
+    - target: {fileID: 6136598032006219917, guid: a13a7578c81af7445b069921c0d4d78c, type: 3}
+      propertyPath: m_Size.y
+      value: 38.592804
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136598032006219917, guid: a13a7578c81af7445b069921c0d4d78c, type: 3}
+      propertyPath: m_Center.y
+      value: 15.289635
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136598032006219917, guid: a13a7578c81af7445b069921c0d4d78c, type: 3}
+      propertyPath: m_Center.z
+      value: 0.043849945
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -688,6 +736,18 @@ PrefabInstance:
     - target: {fileID: 5437755128349265912, guid: a13a7578c81af7445b069921c0d4d78c, type: 3}
       propertyPath: m_Name
       value: Mesa (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136598032006219917, guid: a13a7578c81af7445b069921c0d4d78c, type: 3}
+      propertyPath: m_Size.y
+      value: 38.428963
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136598032006219917, guid: a13a7578c81af7445b069921c0d4d78c, type: 3}
+      propertyPath: m_Center.y
+      value: 15.207714
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136598032006219917, guid: a13a7578c81af7445b069921c0d4d78c, type: 3}
+      propertyPath: m_Center.z
+      value: 0.043849945
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
