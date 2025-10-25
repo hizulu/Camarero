@@ -1,37 +1,48 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using TMPro;
+using static Unity.Burst.Intrinsics.X86.Avx;
 
-public class TrayMovement : MonoBehaviour
+public class TrayInventory : MonoBehaviour
 {
-    public Rigidbody playerRb;          // Rigidbody del personaje
-    public PlayerMovement playerMovement;     // Referencia al script de movimiento
-    public float inclinacionMax = 15f;  // grados máximo de inclinación
-    public float suavizado = 5f;        // velocidad de suavizado
-    public float factorVelocidad = 2f;  // cuánto afecta la velocidad a la inclinación
-    public float factorAceleracion = 0.5f; // cuánto afecta la aceleración a la inclinación
+    [Header("Referencias")]
+    public Transform trayTransform;       // normalmente la propia bandeja (puede ser transform)
+    public Rigidbody playerRb;            // Rigidbody del jugador (se asigna en inspector)
+    public PlayerMovement playerMovement; // referencia al script PlayerMovement
 
-    void Update()
+    [Header("UI / Eventos")]
+    public TextMeshProUGUI cupsText;
+    public UnityEvent OnAllCupsLost;      // asigna listeners en inspector (ej: detener score)
+
+    private List<Cup> cups = new List<Cup>();
+
+    private void Awake()
     {
-        if (playerRb == null || playerMovement == null)
+        if (trayTransform == null) trayTransform = transform;
+    }
+
+    public void AddCup(Cup c)
+    {
+        if (!cups.Contains(c)) cups.Add(c);
+        UpdateUI();
+    }
+
+    public void RemoveCup(Cup c)
+    {
+        if (cups.Contains(c)) cups.Remove(c);
+        UpdateUI();
+
+        if (cups.Count == 0)
         {
-            Debug.LogError("Debes asignar Rigidbody y UpdateMovement en Bandeja.");
-            return;
+            OnAllCupsLost?.Invoke();
         }
+    }
 
-        // Velocidad y aceleración actuales
-        float velocidadX = playerRb.velocity.x;
-        float aceleracionX = playerMovement.CurrentAcceleration; // necesitamos exponer currentAcceleration como propiedad
+    public int CurrentCupCount => cups.Count;
 
-        // Calcula la inclinación según velocidad y aceleración
-        float inclinacionX = Mathf.Clamp(
-            -90f + (-velocidadX * factorVelocidad - aceleracionX * factorAceleracion),
-            -90f - inclinacionMax,
-            -90f + inclinacionMax
-        );
-
-        // Rotación manteniendo Y = 90 y Z = -90
-        Quaternion rotacionDeseada = Quaternion.Euler(inclinacionX, 90f, -90f);
-
-        // Suavizado de la rotación
-        transform.localRotation = Quaternion.Lerp(transform.localRotation, rotacionDeseada, Time.deltaTime * suavizado);
+    private void UpdateUI()
+    {
+        if (cupsText != null) cupsText.text = cups.Count.ToString();
     }
 }
