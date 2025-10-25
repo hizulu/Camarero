@@ -13,7 +13,7 @@ public class TrayMovement : MonoBehaviour
     {
         if (playerRb == null || playerMovement == null)
         {
-            Debug.LogError("Debes asignar Rigidbody y Movement en Bandeja.");
+            Debug.LogError("Debes asignar Rigidbody y UpdateMovement en Bandeja.");
             return;
         }
 

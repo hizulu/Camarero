@@ -754,6 +754,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21363c266755f47479256a7d685cbeae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  distanceRecord: 0
+  distanceText: {fileID: 0}
 --- !u!4 &6500145025489209030 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0dbb7df04c05fc340a0c2ceaa51c6b53, type: 3}

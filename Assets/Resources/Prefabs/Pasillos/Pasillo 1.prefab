@@ -682,6 +682,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21363c266755f47479256a7d685cbeae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  distanceRecord: 0
+  distanceText: {fileID: 0}
 --- !u!54 &207422293720490027
 Rigidbody:
   m_ObjectHideFlags: 0

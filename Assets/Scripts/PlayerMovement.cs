@@ -4,7 +4,7 @@ using TMPro;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Movement Settings")]
+    [Header("UpdateMovement Settings")]
     public float maxSpeed = 10f;
     public float baseAcceleration = 20f;
     public float initialAcceleration = 50f; // Aceleración inicial para que arranque rápido
