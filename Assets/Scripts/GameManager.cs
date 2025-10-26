@@ -1,45 +1,72 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("UI Panels")]
     public GameObject pausaPanel;
-    public TMPro.TextMeshProUGUI distanceText;
+    public GameObject endPanel;
+    public GameObject pantallaPanel;
 
-    public void Start()
+    [Header("UI Texts")]
+    public TMP_Text distanceText;
+    public TMP_Text finalDistanceText;
+
+    [Header("Game References")]
+    public SectionsManager sectionsManager;
+
+    private bool gameEnded = false;
+
+    void Start()
     {
-        pausaPanel.SetActive(false);
+        if (pausaPanel != null)
+            pausaPanel.SetActive(false);
+
+        if (endPanel != null)
+            endPanel.SetActive(false);
     }
 
-    public void Jugar()
+    void Update()
     {
-        //Cargar escena 1
-        Time.timeScale = 1;
-        UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+        if (Input.GetKeyDown(KeyCode.Escape) && pausaPanel != null)
+            Pausa();
     }
 
-    public void SalirMenuInicial()
+    public void UpdateDistance(int distance)
     {
-        //SalirMenuInicial de la aplicacion
-        Application.Quit();
-        Debug.Log("SalirMenuInicial");
+        if (distanceText != null)
+            distanceText.text = "Distancia: " + distance + " m";
     }
+
+    public void EndGame()
+    {
+        if (gameEnded) return;
+
+        if (endPanel != null) endPanel.SetActive(true);
+        if (pantallaPanel != null) pantallaPanel.SetActive(false);
+
+        if (sectionsManager != null && finalDistanceText != null)
+            finalDistanceText.text = "Distancia Recorrida: " + sectionsManager.distanceRecord.ToString("F0") + " m";
+
+        Time.timeScale = 0f;
+        gameEnded = true;
+        Debug.Log("Game ended: No cups left on tray.");
+    }
+
+    #region Pause Menu
 
     public void Pausa()
     {
-        //Pausar el juego
         Time.timeScale = 0;
-        pausaPanel.SetActive(true);
-
+        if (pausaPanel != null)
+            pausaPanel.SetActive(true);
     }
 
     public void Reanudar()
     {
-        //Reanudar el juego
         Time.timeScale = 1;
-        pausaPanel.SetActive(false);
+        if (pausaPanel != null)
+            pausaPanel.SetActive(false);
     }
 
     public void SalirPausa()
@@ -48,13 +75,17 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
     }
 
-    //Detectar ESC para pausar el juego
-    private void Update()
+    #endregion
+
+    public void Jugar()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && pausaPanel != null)
-        {
-            Pausa();
-        }
+        UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+        Time.timeScale = 1;
     }
 
+    public void SalirMenuInicial()
+    {
+        Application.Quit();
+        Debug.Log("SalirMenuInicial");
+    }
 }
