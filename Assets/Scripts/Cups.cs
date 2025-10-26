@@ -56,7 +56,7 @@ public class Cups : MonoBehaviour
 
             //Destruirlas con un poco de Delay
             hasBeenDestroyed = true;
-            Destroy(gameObject, 0.5f);
+            Destroy(gameObject, 0.2f);
         }
     }
 }
