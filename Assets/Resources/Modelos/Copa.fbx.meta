@@ -3,9 +3,19 @@ guid: 79375dffb5d842a48864f2cb6073f307
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material_Cristal
+    second: {fileID: 2100000, guid: f1e8c07c82c160a4d883168b048d2413, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material_Vino
+    second: {fileID: 2100000, guid: fef1b0ee8a9e2ea40a7ece475696adfa, type: 2}
   materials:
-    materialImportMode: 2
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1

@@ -4352,6 +4352,10 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5788668673551204844, guid: f80088e5d01797640b23ed52e17c68e1, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 3464ec9c5c412e048b84ef9364d4dfcc, type: 2}
     - target: {fileID: 7902099395474685586, guid: f80088e5d01797640b23ed52e17c68e1, type: 3}
       propertyPath: trayMovement
       value: 
