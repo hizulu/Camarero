@@ -64,6 +64,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: ad79c4273d85895438211d9cac15d6a2, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7115b6c188fd55a4188780eab801f4e7, type: 2}
     - target: {fileID: 919132149155446097, guid: ad79c4273d85895438211d9cac15d6a2, type: 3}
       propertyPath: m_Name
       value: Mesa

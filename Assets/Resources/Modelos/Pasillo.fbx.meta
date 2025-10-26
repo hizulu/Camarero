@@ -3,7 +3,37 @@ guid: 0dbb7df04c05fc340a0c2ceaa51c6b53
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.Columnas
+    second: {fileID: 2100000, guid: 90bcf4eb025365645ae06735a4cc1531, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.Cortinas
+    second: {fileID: 2100000, guid: 4860764f1173e684e806d90e1e036820, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.Enganches
+    second: {fileID: 2100000, guid: 27a0b0925bee26d4e9945d314631b26a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.Paredes
+    second: {fileID: 2100000, guid: cfab16805f3641a4da18e0c40cdeb257, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.Suelo
+    second: {fileID: 2100000, guid: a97676541f2542943a9a52c4b5431f7c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.Ventanas
+    second: {fileID: 2100000, guid: 92d42711f9134a844ac92ad8a614afc0, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

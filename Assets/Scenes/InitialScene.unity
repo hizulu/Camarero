@@ -484,7 +484,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c2bb79e32d47b740b56b58634a0667b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pausaCanvas: {fileID: 0}
+  pausaPanel: {fileID: 0}
+  distanceText: {fileID: 0}
 --- !u!4 &846194102
 Transform:
   m_ObjectHideFlags: 0
