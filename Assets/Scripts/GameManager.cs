@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Game References")]
     public SectionsManager sectionsManager;
+    public AudioSource backgroundMusic;
 
     private bool gameEnded = false;
 
@@ -44,7 +45,7 @@ public class GameManager : MonoBehaviour
 
         if (endPanel != null) endPanel.SetActive(true);
         if (pantallaPanel != null) pantallaPanel.SetActive(false);
-
+        if (backgroundMusic != null) backgroundMusic.Stop();
         if (sectionsManager != null && finalDistanceText != null)
             finalDistanceText.text = "Distancia Recorrida: " + sectionsManager.distanceRecord.ToString("F0") + " m";
 
@@ -81,6 +82,10 @@ public class GameManager : MonoBehaviour
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(1);
         Time.timeScale = 1;
+        if (pantallaPanel != null) pantallaPanel.SetActive(true);
+        if (pausaPanel != null) pausaPanel.SetActive(false);
+        if (endPanel != null) endPanel.SetActive(false);
+        if (backgroundMusic != null) backgroundMusic.Play();
     }
 
     public void SalirMenuInicial()

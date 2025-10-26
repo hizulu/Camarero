@@ -5,7 +5,12 @@ public class Cups : MonoBehaviour
     [Header("Tray Reference")]
     public TrayMovement trayMovement;
 
-    private bool isOnTray = false;
+    [Header("Destruction Effects")]
+    public GameObject brokenCupPrefab;
+    public float destructionDelay = 0.2f;
+
+    private AudioSource cupAudio;
+    private bool onTray = false;
     private Rigidbody rb;
     private bool hasBeenDestroyed = false;
 
@@ -13,6 +18,7 @@ public class Cups : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.useGravity = true;
+        cupAudio = GetComponent<AudioSource>();
 
         if (trayMovement == null)
         {
@@ -24,10 +30,10 @@ public class Cups : MonoBehaviour
         }
     }
 
-    public void SetOnTray(bool onTray)
+    public void SetOnTray(bool value)
     {
-        isOnTray = onTray;
-        if (!onTray)
+        onTray = value;
+        if (!value)
         {
             Debug.Log("Cup fell off the tray!");
         }
@@ -35,28 +41,37 @@ public class Cups : MonoBehaviour
 
     public bool IsOnTray()
     {
-        return isOnTray;
+        return onTray;
     }
 
     void OnCollisionEnter(Collision collision)
     {
+        Debug.Log($"Collision detected with: {collision.gameObject.name}, tag: {collision.gameObject.tag}");
+
         if (hasBeenDestroyed) return;
 
         if (collision.gameObject.CompareTag("Ground"))
         {
-            if (isOnTray && trayMovement != null)
-            {
+            if (onTray && trayMovement != null)
                 trayMovement.DecrementCupCount();
-                Debug.Log("Cup hit the ground while on tray - decrementing count.");
-            }
-            else
-            {
-                Debug.Log("Cup hit the ground (not on tray).");
-            }
 
-            //Destruirlas con un poco de Delay
+            Debug.Log("Cup collided with the ground and will be destroyed.");
+            // Reproducir sonido (cortando cualquier anterior)
+            if (cupAudio != null && cupAudio.clip != null)
+            {
+                if (cupAudio.isPlaying)
+                    cupAudio.Stop();
+                cupAudio.Play();
+            }
+            Debug.Log("Playing cup break sound.");
+
+            //// Instanciar copa rota
+            //if (brokenCupPrefab != null)
+            //    Instantiate(brokenCupPrefab, transform.position, transform.rotation);
+
             hasBeenDestroyed = true;
-            Destroy(gameObject, 0.2f);
+            Debug.Log("Instantiating broken cup prefab and scheduling destruction.");
+            Destroy(gameObject, destructionDelay);
         }
     }
 }
