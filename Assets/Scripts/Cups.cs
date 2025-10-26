@@ -8,11 +8,13 @@ public class Cups : MonoBehaviour
     private bool isOnTray = false;
     private Rigidbody rb;
     private bool hasBeenDestroyed = false;
+    private AudioSource audio;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.useGravity = true;
+        audio=GetComponent<AudioSource>();
 
         if (trayMovement == null)
         {
@@ -53,10 +55,12 @@ public class Cups : MonoBehaviour
             {
                 Debug.Log("Cup hit the ground (not on tray).");
             }
-
+            audio.Play();
+            
             //Destruirlas con un poco de Delay
             hasBeenDestroyed = true;
-            Destroy(gameObject, 0.2f);
+            Destroy(gameObject, 0.3f);
+
         }
     }
 }
