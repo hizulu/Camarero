@@ -5,7 +5,7 @@ using System.Text;
 
 public class WebGLPlayerData : MonoBehaviour
 {
-    private string baseUrl = "http://localhost:3000/api/players"; // Cambia si subes el servidor
+    private string baseUrl = "http://localhost:3000/api/players"; // Cambia si tu backend está en otro host
 
     [System.Serializable]
     public class PlayerData
@@ -13,13 +13,12 @@ public class WebGLPlayerData : MonoBehaviour
         public string username;
         public int best_score;
         public int games_played;
-        public string last_game_date; // nuevo campo
+        public string last_game_date;
     }
 
     public void SendPlayerData(string username, int bestScore, int gamesPlayed)
     {
-        string dateNow = System.DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"); // Formato ISO 8601
-
+        string dateNow = System.DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
         PlayerData player = new PlayerData
         {
             username = username,
@@ -27,7 +26,6 @@ public class WebGLPlayerData : MonoBehaviour
             games_played = gamesPlayed,
             last_game_date = dateNow
         };
-
         StartCoroutine(PostPlayerData(player));
     }
 

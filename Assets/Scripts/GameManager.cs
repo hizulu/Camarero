@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
         // Enviar datos al backend
         if (webGLPlayerData != null)
         {
-             webGLPlayerData.SendPlayerData(playerUsername, sectionsManager.distanceRecord, gamesPlayed);
+            webGLPlayerData.SendPlayerData(playerUsername, sectionsManager.distanceRecord, gamesPlayed);
         }
 
         Time.timeScale = 0f;
