@@ -1232,6 +1232,9 @@ MonoBehaviour:
   finalDistanceText: {fileID: 659750062}
   sectionsManager: {fileID: 639079548}
   backgroundMusic: {fileID: 233513594}
+  webGLPlayerData: {fileID: 982702865}
+  playerUsername: player1
+  gamesPlayed: 1
 --- !u!4 &471176373
 Transform:
   m_ObjectHideFlags: 0
@@ -2606,6 +2609,50 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8fdf7b7b24991ad44a1663716d88a7d5, type: 3}
+--- !u!1 &982702864
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 982702866}
+  - component: {fileID: 982702865}
+  m_Layer: 0
+  m_Name: PlayerDataManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &982702865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 982702864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c9c2b7f3bf769e4f897eb3f3ff5543d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &982702866
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 982702864}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.4770074, y: -17.536867, z: -61.54787}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1044482418 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6500145025489209030, guid: f7fe73ada4724c242a269767d62b5f38, type: 3}
@@ -4692,3 +4739,4 @@ SceneRoots:
   - {fileID: 1360309510}
   - {fileID: 675915792}
   - {fileID: 233513595}
+  - {fileID: 982702866}

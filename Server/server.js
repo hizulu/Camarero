@@ -23,7 +23,7 @@ async function startServer() {
                     username: req.body.username,
                     best_score: req.body.best_score,
                     games_played: req.body.games_played,
-                    last_game_date: new Date()
+                    last_game_date: new Date() // Guarda la fecha de la partida
                 });
                 res.send({ success: true });
             } catch(e) {

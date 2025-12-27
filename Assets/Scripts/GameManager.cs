@@ -18,6 +18,11 @@ public class GameManager : MonoBehaviour
 
     private bool gameEnded = false;
 
+    [Header("WebGL Player Data")]
+    public WebGLPlayerData webGLPlayerData;
+    public string playerUsername = "player1"; // Puedes cambiar por un input del jugador
+    public int gamesPlayed = 1; // Si quieres incrementar automáticamente, lo manejas aquí
+
     void Start()
     {
         if (pausaPanel != null)
@@ -46,8 +51,15 @@ public class GameManager : MonoBehaviour
         if (endPanel != null) endPanel.SetActive(true);
         if (pantallaPanel != null) pantallaPanel.SetActive(false);
         if (backgroundMusic != null) backgroundMusic.Stop();
+        //Distancia total
         if (sectionsManager != null && finalDistanceText != null)
             finalDistanceText.text = "Distancia Recorrida: " + sectionsManager.distanceRecord.ToString("F0") + " m";
+
+        // Enviar datos al backend
+        if (webGLPlayerData != null)
+        {
+             webGLPlayerData.SendPlayerData(playerUsername, sectionsManager.distanceRecord, gamesPlayed);
+        }
 
         Time.timeScale = 0f;
         gameEnded = true;
