@@ -1,20 +1,12 @@
 using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 
 public class WebGLPlayerData : MonoBehaviour
 {
-    private string baseUrl = "http://localhost:3000/api/players"; // Cambia si tu backend está en otro host
-
-    [System.Serializable]
-    public class PlayerData
-    {
-        public string username;
-        public int best_score;
-        public int games_played;
-        public string last_game_date;
-    }
+    public string baseUrl = "http://localhost:3000/api/players";
 
     public void SendPlayerData(string username, int bestScore, int gamesPlayed)
     {
@@ -45,5 +37,28 @@ public class WebGLPlayerData : MonoBehaviour
             Debug.Log("Datos enviados correctamente al backend.");
         else
             Debug.LogError("Error al enviar datos: " + request.error);
+    }
+
+    public void GetRanking(System.Action<List<PlayerData>> callback)
+    {
+        StartCoroutine(GetRankingCoroutine(callback));
+    }
+
+    IEnumerator GetRankingCoroutine(System.Action<List<PlayerData>> callback)
+    {
+        UnityWebRequest request = UnityWebRequest.Get(baseUrl);
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+            string json = request.downloadHandler.text;
+            List<PlayerData> players = JsonUtility
+                .FromJson<PlayerDataList>("{\"players\":" + json + "}").players;
+            callback?.Invoke(players);
+        }
+        else
+        {
+            Debug.LogError("Error al obtener ranking: " + request.error);
+        }
     }
 }
