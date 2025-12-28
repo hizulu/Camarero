@@ -42,7 +42,9 @@ public class WebGLPlayerData : MonoBehaviour
 
     public void GetRanking(System.Action<List<PlayerData>> callback)
     {
+        Debug.Log("URL usada para GET: " + baseUrl);
         StartCoroutine(GetRankingCoroutine(callback));
+        Debug.Log("URL usada para GET: " + baseUrl);
     }
 
     IEnumerator GetRankingCoroutine(System.Action<List<PlayerData>> callback)

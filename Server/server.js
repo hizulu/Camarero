@@ -17,7 +17,7 @@ async function getCollection() {
         await client.connect();
     }
     const db = client.db(process.env.DB_NAME || "Camarero");
-    return db.collection("Player");
+    return db.collection("players");
 }
 
 // Ruta raíz para pruebas

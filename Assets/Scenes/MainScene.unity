@@ -4505,7 +4505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c9c2b7f3bf769e4f897eb3f3ff5543d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseUrl: https://camarero-in0r.onrender.com
+  baseUrl: 'https://camarero-in0r.onrender.com/api/players '
 --- !u!4 &982702866
 Transform:
   m_ObjectHideFlags: 0
