@@ -3,6 +3,7 @@ using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System;
 
 public class WebGLPlayerData : MonoBehaviour
 {
@@ -52,9 +53,29 @@ public class WebGLPlayerData : MonoBehaviour
         if (request.result == UnityWebRequest.Result.Success)
         {
             string json = request.downloadHandler.text;
-            List<PlayerData> players = JsonUtility
-                .FromJson<PlayerDataList>("{\"players\":" + json + "}").players;
-            callback?.Invoke(players);
+
+            // El JSON debe ser un array
+            if (!json.StartsWith("["))
+            {
+                Debug.LogError("Error: JSON no es un array válido: " + json);
+                yield break;
+            }
+
+            // Envolver el array en un objeto para JsonUtility
+            string wrappedJson = "{\"players\":" + json + "}";
+
+            try
+            {
+                PlayerDataList dataList = JsonUtility.FromJson<PlayerDataList>(wrappedJson);
+                if (dataList != null && dataList.players != null)
+                    callback?.Invoke(dataList.players);
+                else
+                    Debug.LogError("Lista de jugadores vacía o JSON mal formado");
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Error parseando JSON: " + e.Message);
+            }
         }
         else
         {
