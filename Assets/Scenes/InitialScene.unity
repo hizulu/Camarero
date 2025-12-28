@@ -490,6 +490,10 @@ MonoBehaviour:
   distanceText: {fileID: 0}
   finalDistanceText: {fileID: 0}
   sectionsManager: {fileID: 0}
+  backgroundMusic: {fileID: 0}
+  webGLPlayerData: {fileID: 0}
+  playerUsername: player1
+  gamesPlayed: 1
 --- !u!4 &846194102
 Transform:
   m_ObjectHideFlags: 0

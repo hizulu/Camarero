@@ -1,12 +1,11 @@
 using UnityEngine;
-using UnityEngine.UI;
-using System.Collections.Generic;
+using TMPro;
 
 public class RankingUI : MonoBehaviour
 {
     public WebGLPlayerData webGLPlayerData;
-    public Transform contentPanel; // Content del ScrollView
-    public GameObject filaPrefab;   // Prefab para cada fila
+    public Transform contentPanel;
+    public GameObject filaPrefab;
 
     void Start()
     {
@@ -17,23 +16,43 @@ public class RankingUI : MonoBehaviour
     {
         webGLPlayerData.GetRanking(players =>
         {
-            // Ordenar por mejor puntuación
             players.Sort((a, b) => b.best_score.CompareTo(a.best_score));
 
-            // Limpiar filas anteriores
             foreach (Transform child in contentPanel)
                 Destroy(child.gameObject);
 
-            // Crear filas dinámicamente
+            int pos = 1;
+
             foreach (var p in players)
             {
                 GameObject fila = Instantiate(filaPrefab, contentPanel);
-                fila.transform.Find("Username").GetComponent<Text>().text = p.username;
-                fila.transform.Find("BestScore").GetComponent<Text>().text = p.best_score.ToString();
-                fila.transform.Find("GamesPlayed").GetComponent<Text>().text = p.games_played.ToString();
-                fila.transform.Find("LastGameDate").GetComponent<Text>().text = p.last_game_date;
+                FilaRanking filaRanking = fila.GetComponent<FilaRanking>();
+
+                // Formatear fecha
+                string fechaFormateada = "";
+                try
+                {
+                    fechaFormateada = System.DateTime.Parse(p.last_game_date)
+                                     .ToString("dd-MM-yyyy");
+                }
+                catch
+                {
+                    fechaFormateada = p.last_game_date;
+                }
+
+                filaRanking.positionText.text = pos.ToString();
+                filaRanking.playerNameText.text = p.username;
+                filaRanking.scoreText.text = p.best_score.ToString();
+                filaRanking.gamesPlayedText.text = p.games_played.ToString();
+                filaRanking.dateText.text = fechaFormateada;
+
+                pos++;
             }
         });
     }
-}
 
+    public void RefreshRanking()
+    {
+        LoadRanking();
+    }
+}

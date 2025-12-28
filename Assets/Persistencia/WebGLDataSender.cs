@@ -10,7 +10,7 @@ public class WebGLPlayerData : MonoBehaviour
 
     public void SendPlayerData(string username, int bestScore, int gamesPlayed)
     {
-        string dateNow = System.DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
+        string dateNow = System.DateTime.UtcNow.ToString("dd-MM-yyyy");
         PlayerData player = new PlayerData
         {
             username = username,

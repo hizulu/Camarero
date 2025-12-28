@@ -10,67 +10,66 @@ app.use(express.json());
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_CLUSTER}/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
 
-async function startServer() {
-    try {
-        await client.connect();
-        console.log("Conectado a MongoDB");
-        const db = client.db(process.env.DB_NAME);
-        const collection = db.collection("Player");
+async function getCollection() {
+    await client.connect();
+    const db = client.db("Camarero");   // Nombre de tu DB
+    return db.collection("Player");     // Nombre de tu colección
+}
 
-        // Guardar o actualizar datos del jugador
-        app.post('/api/players', async (req, res) => {
+// Guardar o actualizar datos del jugador
+app.post('/api/players', async (req, res) => {
     try {
-        console.log("Cuerpo recibido:", req.body); // <--- imprime lo que llega desde Unity
-
+        const collection = await getCollection();
         const { username, best_score, games_played, last_game_date } = req.body;
 
-        if (!username || best_score == null || games_played == null || !last_game_date) {
-            throw new Error("Faltan campos obligatorios en el cuerpo");
+        if (!username) {
+            return res.status(400).json({ error: "Username requerido" });
         }
 
-        const existing = await collection.findOne({ username });
+        // Busca si ya existe el jugador
+        const existingPlayer = await collection.findOne({ username });
 
-        if (existing) {
+        if (existingPlayer) {
+            // Actualiza solo si el nuevo score es mejor
+            const updatedBestScore = Math.max(existingPlayer.best_score, best_score);
+
+            // Actualiza games_played sumando los nuevos
+            const updatedGamesPlayed = existingPlayer.games_played + games_played;
+
             await collection.updateOne(
                 { username },
-                { 
-                    $set: { last_game_date: new Date(last_game_date) },
-                    $max: { best_score },
-                    $inc: { games_played: 1 }
+                {
+                    $set: {
+                        best_score: updatedBestScore,
+                        last_game_date: last_game_date
+                    },
+                    $setOnInsert: { username },
+                    $inc: { games_played: games_played } // Otra forma de sumar
                 }
             );
-        } else {
-            await collection.insertOne({
-                username,
-                best_score,
-                games_played,
-                last_game_date: new Date(last_game_date)
-            });
-        }
 
-        res.send({ success: true });
-    } catch(e) {
-        console.error("Error en POST /api/players:", e); // <-- imprime el error exacto
-        res.status(500).send({ error: e.message });
+            res.json({ success: true, message: "Jugador actualizado" });
+        } else {
+            // Crea nuevo jugador
+            await collection.insertOne({ username, best_score, games_played, last_game_date });
+            res.json({ success: true, message: "Jugador creado" });
+        }
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({ error: e.message });
     }
 });
 
-        // Obtener ranking global
-        app.get('/api/players', async (req, res) => {
-            try {
-                const players = await collection.find({})
-                    .sort({ best_score: -1 }) // De mayor a menor
-                    .toArray();
-                res.send(players);
-            } catch(e) {
-                res.status(500).send({ error: e.message });
-            }
-        });
-
-        app.listen(3000, () => console.log('Servidor corriendo en http://localhost:3000'));
-    } catch(e) {
+// Obtener ranking global
+app.get('/api/players', async (req, res) => {
+    try {
+        const collection = await getCollection();
+        const players = await collection.find({}).toArray();
+        res.json(players);
+    } catch (e) {
         console.error(e);
+        res.status(500).json({ error: e.message });
     }
-}
+});
 
-startServer();
+app.listen(3000, () => console.log('Servidor corriendo en http://localhost:3000'));

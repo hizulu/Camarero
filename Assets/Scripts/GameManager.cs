@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public GameObject pausaPanel;
     public GameObject endPanel;
     public GameObject pantallaPanel;
+    public GameObject loginPanel;
 
     [Header("UI Texts")]
     public TMP_Text distanceText;
@@ -15,6 +16,8 @@ public class GameManager : MonoBehaviour
     [Header("Game References")]
     public SectionsManager sectionsManager;
     public AudioSource backgroundMusic;
+    public LoginUI loginUI;
+    public bool firstTime = true;
 
     private bool gameEnded = false;
 
@@ -30,6 +33,18 @@ public class GameManager : MonoBehaviour
 
         if (endPanel != null)
             endPanel.SetActive(false);
+        if (firstTime)
+        {
+            loginUI.gameObject.SetActive(true);
+            loginPanel.SetActive(true);
+            firstTime = false;
+        }
+        else
+        {
+            loginUI.gameObject.SetActive(false);
+            loginPanel.SetActive(false);
+            Time.timeScale = 1f;
+        }
     }
 
     void Update()
@@ -58,7 +73,7 @@ public class GameManager : MonoBehaviour
         // Enviar datos al backend
         if (webGLPlayerData != null)
         {
-            webGLPlayerData.SendPlayerData(playerUsername, sectionsManager.distanceRecord, gamesPlayed);
+            webGLPlayerData.SendPlayerData(LoginUI.playerUsername, sectionsManager.distanceRecord, 1);
         }
 
         Time.timeScale = 0f;
@@ -93,7 +108,7 @@ public class GameManager : MonoBehaviour
     public void Jugar()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(1);
-        Time.timeScale = 1;
+        Time.timeScale = 1f;
         if (pantallaPanel != null) pantallaPanel.SetActive(true);
         if (pausaPanel != null) pausaPanel.SetActive(false);
         if (endPanel != null) endPanel.SetActive(false);
