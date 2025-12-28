@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public GameObject pausaPanel;
     public GameObject endPanel;
     public GameObject pantallaPanel;
+    public GameObject loginPanel;
 
     [Header("UI Texts")]
     public TMP_Text distanceText;
@@ -15,8 +16,15 @@ public class GameManager : MonoBehaviour
     [Header("Game References")]
     public SectionsManager sectionsManager;
     public AudioSource backgroundMusic;
+    public LoginUI loginUI;
+    public bool firstTime = true;
 
     private bool gameEnded = false;
+
+    [Header("WebGL Player Data")]
+    public WebGLPlayerData webGLPlayerData;
+    public string playerUsername = "player1"; // Puedes cambiar por un input del jugador
+    public int gamesPlayed = 1; // Si quieres incrementar automáticamente, lo manejas aquí
 
     void Start()
     {
@@ -25,6 +33,18 @@ public class GameManager : MonoBehaviour
 
         if (endPanel != null)
             endPanel.SetActive(false);
+        if (firstTime)
+        {
+            loginUI.gameObject.SetActive(true);
+            loginPanel.SetActive(true);
+            firstTime = false;
+        }
+        else
+        {
+            loginUI.gameObject.SetActive(false);
+            loginPanel.SetActive(false);
+            Time.timeScale = 1f;
+        }
     }
 
     void Update()
@@ -46,8 +66,15 @@ public class GameManager : MonoBehaviour
         if (endPanel != null) endPanel.SetActive(true);
         if (pantallaPanel != null) pantallaPanel.SetActive(false);
         if (backgroundMusic != null) backgroundMusic.Stop();
+        //Distancia total
         if (sectionsManager != null && finalDistanceText != null)
             finalDistanceText.text = "Distancia Recorrida: " + sectionsManager.distanceRecord.ToString("F0") + " m";
+
+        // Enviar datos al backend
+        if (webGLPlayerData != null)
+        {
+            webGLPlayerData.SendPlayerData(LoginUI.playerUsername, sectionsManager.distanceRecord, 1);
+        }
 
         Time.timeScale = 0f;
         gameEnded = true;
@@ -81,7 +108,7 @@ public class GameManager : MonoBehaviour
     public void Jugar()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(1);
-        Time.timeScale = 1;
+        Time.timeScale = 1f;
         if (pantallaPanel != null) pantallaPanel.SetActive(true);
         if (pausaPanel != null) pausaPanel.SetActive(false);
         if (endPanel != null) endPanel.SetActive(false);
