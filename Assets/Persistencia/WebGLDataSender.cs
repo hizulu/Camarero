@@ -6,7 +6,7 @@ using System.Text;
 
 public class WebGLPlayerData : MonoBehaviour
 {
-    public string baseUrl = "http://localhost:3000/api/players";
+    public string baseUrl = "https://camarero-in0r.onrender.com/api/players";
 
     public void SendPlayerData(string username, int bestScore, int gamesPlayed)
     {
