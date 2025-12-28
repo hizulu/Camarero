@@ -13,10 +13,17 @@ const client = new MongoClient(uri);
 
 // Obtener la colección
 async function getCollection() {
-    if (!client.isConnected?.()) await client.connect();
+    if (!client.topology || !client.topology.isConnected()) {
+        await client.connect();
+    }
     const db = client.db(process.env.DB_NAME || "Camarero");
     return db.collection("Player");
 }
+
+// Ruta raíz para pruebas
+app.get('/', (req, res) => {
+    res.send('Backend Camarero corriendo!');
+});
 
 // Guardar o actualizar datos del jugador
 app.post('/api/players', async (req, res) => {
@@ -26,7 +33,6 @@ app.post('/api/players', async (req, res) => {
 
         if (!username) return res.status(400).json({ error: "Username requerido" });
 
-        // Busca si ya existe el jugador
         const existingPlayer = await collection.findOne({ username });
 
         if (existingPlayer) {
